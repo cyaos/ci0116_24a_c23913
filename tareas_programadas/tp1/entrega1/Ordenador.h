@@ -14,10 +14,7 @@ class Ordenador{
 	// que se va a ejecutar el mismo main para todas las tareas.
     // Implemente los algoritmos en este archivo  (no en un CPP aparte).
 	void seleccion(int *A, int n){
-		int menor;
-		int aux;
-		int i;
-		int j;
+		int menor, aux, i, j;
 
 		for (i = 1; i < n; i++){
 			menor = i;
