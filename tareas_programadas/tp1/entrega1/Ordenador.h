@@ -1,6 +1,10 @@
 #ifndef Ordenador_h
 #define Ordenador_h
 
+#include <stdio.h>
+#include <iostream>
+#include <string>
+
 class Ordenador{
 	private:
     // Defina aqui los metodos auxiliares de los algoritmos de ordenamiento solamente.
@@ -14,17 +18,16 @@ class Ordenador{
 	// que se va a ejecutar el mismo main para todas las tareas.
     // Implemente los algoritmos en este archivo  (no en un CPP aparte).
 	void seleccion(int *A, int n){
-		int menor, aux, i, j;
-
-		for (i = 1; i < n; i++){
+		int menor;
+		for (int i = 0; i < n-1; i++){
 			menor = i;
-			for (int j = i+1; j < n; i++){
-				if (A[j] < A[i]){
+			for (int j = i+1; j < n; j++){
+				if (A[j] < A[menor]){
 					menor = j;
 				}
 			}
-			aux = A[j];
-			A[j] = A[menor];
+			int aux = A[i];
+			A[i] = A[menor];
 			A[menor] = aux;
 		}
 	}
@@ -32,10 +35,10 @@ class Ordenador{
 	void insercion(int *A, int n){
 		int i, j, key;
 
-		for (i = 2; i <= n; i++){
+		for (i = 1; i < n; i++){
 			key = A[i];
 			j = i - 1;
-			while (j > 0 && A[j] > key){
+			while (j >= 0 && A[j] > key){
 				A[j+1] = A[j];
 				j = j - 1;
 			}
@@ -43,10 +46,16 @@ class Ordenador{
 		}
 	}
 
+	std::string ImprimirDatosDeTarea(){
+		return "C23913 Tarea 1 Etapa 1";
+	}
 
 	void mergesort(int *A, int n);
 	void heapsort(int *A, int n);
 	void quicksort(int *A, int n);
 	void radixsort(int *A, int n);
 };
+
+
+
 #endif
