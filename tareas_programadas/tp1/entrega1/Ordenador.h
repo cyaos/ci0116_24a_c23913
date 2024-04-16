@@ -20,7 +20,7 @@ class Ordenador{
 	}
 
 	void intercalar (int * A, int * tmp, int izq, int centro, int der){
-		int ap = izq, bp = centro, cp = izq;
+		int ap = izq, bp = centro, cp = izq; 
   		while ((ap < centro) && (bp <= der)){
       		if (A[ap] <= A[bp]){
    				tmp[cp] = A[ap];
@@ -44,7 +44,7 @@ class Ordenador{
         for (ap = izq; ap <= der; ap++){
            A[ap] = tmp[ap];
 		}
-}
+	}
 
 	
 	public:
