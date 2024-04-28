@@ -68,6 +68,28 @@ class Ordenador{
 		    max_heapify(A, n, i);
 		}
   	}
+
+    void quicksortAux(int *A, int p, int r) {
+		if (p < r) {
+		int q = partition(A, p, r); 
+		quicksortAux(A, p, q - 1);
+		quicksortAux(A, q + 1, r); 
+		}
+  	}
+
+	int partition(int *A, int p, int r) {
+		int x = A[r]; 
+		int i = p - 1;
+
+		for (int j = p; j < r; j++) {
+            if (A[j] <= x) {
+                i++;
+                std::swap(A[i], A[j]);
+            }
+		}
+		std::swap(A[i + 1], A[r]); 
+		return i + 1; 
+	}
 	
 	public:
 	Ordenador(){};
@@ -118,11 +140,12 @@ class Ordenador{
     	buildMaxHeap(A, n);
     	for (int i = n - 1; i >= 0; i--) {
         	std::swap(A[0], A[i]);
-        max_heapify(A, i, 0);
+            max_heapify(A, i, 0);
     	}    
 	}
 
 	void quicksort(int *A, int n){
+        quicksortAux(A, 0, n - 1);
 	}
 
 	void radixsort(int *A, int n){
