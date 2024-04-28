@@ -45,51 +45,6 @@ class Ordenador{
            A[ap] = tmp[ap];
 		}
 	}
-
-	void max_heapify(int *A, int n, int i){
-		int largest = i; 
-    	int left = 2 * i + 1; 
-    	int right = 2 * i + 2; 
-
-		if (left < n && A[left] > A[largest])
-			largest = left;
-
-		if (right < n && A[right] > A[largest])
-			largest = right;
-
-		if (largest != i) {
-			std::swap(A[i], A[largest]); 
-			max_heapify(A, n, largest); 
-		}
-	}
-
-	void buildMaxHeap(int *A, int n) {
-		for (int i = n / 2 - 1; i >= 0; i--) {
-		max_heapify(A, n, i);
-		}
-  	}
-
-	void quicksortAux(int *A, int p, int r) {
-		if (p < r) {
-		int q = partition(A, p, r); 
-		quicksortAux(A, p, q - 1);
-		quicksortAux(A, q + 1, r); 
-		}
-  	}
-
-	int partition(int *A, int p, int r) {
-		int x = A[r]; 
-		int i = p - 1;
-
-		for (int j = p; j < r; j++) {
-		if (A[j] <= x) {
-			i++;
-			std::swap(A[i], A[j]);
-		}
-		}
-		std::swap(A[i + 1], A[r]); 
-		return i + 1; 
-	}
 	
 	public:
 	Ordenador(){};
@@ -137,20 +92,17 @@ class Ordenador{
 	}
 
 	void heapsort(int *A, int n){
-		buildMaxHeap(A, n);
-    	for (int i = n - 1; i >= 0; i--) {
-        	std::swap(A[0], A[i]);
-        max_heapify(A, i, 0);
-    	}
 	}
 
 	void quicksort(int *A, int n){
-		quicksortAux(A, 0, n - 1);
 	}
-	void radixsort(int *A, int n);
+
+	void radixsort(int *A, int n){
+	}
 };
 
 
 
 
 #endif
+
