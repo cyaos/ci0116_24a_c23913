@@ -149,6 +149,35 @@ class Ordenador{
 	}
 
 	void radixsort(int *A, int n){
+        int tempArray[n];
+		int* temp = tempArray;
+
+		const int numBytes = 4;
+
+		for (int byteIndex = 0; byteIndex < numBytes; byteIndex++) {
+			size_t byteCount[256] = {};
+
+			size_t inicio = 0;
+			if (byteIndex == 3) {
+			inicio = 128;
+			}
+
+			for (int i = 0; i < n; i++) {
+			int byteValue = (A[i] >> (8 * byteIndex)) & 0xFF;
+			byteCount[byteValue]++;
+			}
+
+			for (int i = 1 + inicio; i < 256 + inicio; i++) {
+			byteCount[i % 256] += byteCount[(i - 1) % 256];
+			}
+
+			for (int i = n - 1; i >= 0; i--) {
+			int byteValue = (A[i] >> (8 * byteIndex)) & 0xFF;
+			temp[--byteCount[byteValue]] = A[i];
+			}
+
+			std::swap(A, temp);
+		}
 	}
 };
 
