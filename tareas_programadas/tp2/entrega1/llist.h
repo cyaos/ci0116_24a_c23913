@@ -49,20 +49,26 @@ public:
         nil->next = nil;
     };
     
+    // Destructor (borra la lista)
     ~llist() {
-        // Destructor (borra la lista)
     };
     
+    // Inserta el nodo x en la lista.
     void Insert(llnode<T>* x) {
-        // Inserta el nodo x en la lista.
+        // Ingresa el nuevo nodo después del nodo centinela
+        x->next = nil->next;
+        x->prev = nil;
+        // Actualiza los punteros de nil y el nodo "next" anterior
+        nil->next->prev = x;
+        nil->next = x;
     };
 
+    // Busca la llave iterativamente. Si la encuentra, devuelve un apuntador al nodo que la contiene; sino devuelve el nodo nil (el centinela).
     llnode<T>* Search(const T& k) {
-        // Busca la llave iterativamente. Si la encuentra, devuelve un apuntador al nodo que la contiene; sino devuelve el nodo nil (el centinela).
     };
         
+    // Saca de la lista la llave contenida en el nodo apuntado por x.
     void Delete(llnode<T>* x) {
-        // Saca de la lista la llave contenida en el nodo apuntado por x.
     };    
 };
 
