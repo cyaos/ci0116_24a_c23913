@@ -9,35 +9,44 @@
 template <typename T>
 class llnode
 {
-public:
-    // Esta clase es usada por otras clases. 
+private:
     // Modifique los atributos para que sean privados y se accedan solo mediante métodos públicos de la clase.
     T key;
     llnode<T> *prev, *next;
-    
+
+public:
+    // Esta clase es usada por otras clases. 
     // Constructor por omisión.
     llnode() {
+        this->prev = nullptr;
+        this->next = nullptr;
     };
     
     // Inicialización de los datos miembro.
     llnode (const T& k, llnode<T> *w = nullptr, llnode<T> *y = nullptr):key(k), prev(w), next(y)  {};
-    
-    ~llnode() {
-    };
+
+    // Destructor
+    ~llnode() {};
 };
 
 // Lista enlazada con nodo centinela:
 template <typename T>
 class llist
 {
+private:
+    // Modifique los atributos para que sean privados y se accedan solo mediante métodos públicos de la clase.
+    // Nodo centinela
+    llnode<T> *nil;
+
 public:
     // Esta clase es usada por otras clases. 
-    // Modifique los atributos para que sean privados y se accedan solo mediante métodos públicos de la clase.
-
-    llnode<T> *nil;        // nodo centinela
-
+    // Constructor (crea una lista vacía)
     llist() {
-        // Constructor (crea una lista vacía)
+        // Creación de un nodo centinela
+        nil = new llnode<T>();
+        // Se apunta a si mismo
+        nil->prev = nil;
+        nil->next = nil;
     };
     
     ~llist() {
