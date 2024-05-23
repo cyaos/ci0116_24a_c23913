@@ -10,22 +10,25 @@ template <typename T>
 class llnode
 {
 private:
-    // Modifique los atributos para que sean privados y se accedan solo mediante métodos públicos de la clase.
+    /// Llave del nodo
     T key;
+    /// Puntero al nodo anterior y al siguiente
     llnode<T> *prev, *next;
 
 public:
-    // Esta clase es usada por otras clases. 
-    // Constructor por omisión.
+    /// @brief Constructor por omisión
     llnode() {
         this->prev = nullptr;
         this->next = nullptr;
     };
     
-    // Inicialización de los datos miembro.
+    /// @brief Inicialización de los datos miembro.
+    /// @param k llave del nodo
+    /// @param w puntero al nodo siguiente
+    /// @param y puntero al nodo anterior
     llnode (const T& k, llnode<T> *w = nullptr, llnode<T> *y = nullptr):key(k), prev(w), next(y)  {};
 
-    // Destructor
+    /// @brief Destructor
     ~llnode() {};
 };
 
@@ -34,13 +37,12 @@ template <typename T>
 class llist
 {
 private:
-    // Modifique los atributos para que sean privados y se accedan solo mediante métodos públicos de la clase.
-    // Nodo centinela
+    /// Nodo centinela
     llnode<T> *nil;
 
 public:
-    // Esta clase es usada por otras clases. 
-    // Constructor (crea una lista vacía)
+    /// @brief Constructor
+    /// @details Crea una lista vacía
     llist() {
         // Creación de un nodo centinela
         nil = new llnode<T>();
@@ -49,11 +51,13 @@ public:
         nil->next = nil;
     };
     
-    // Destructor (borra la lista)
+    /// @brief Destructor
+    /// @details Borra la lista
     ~llist() {
     };
     
-    // Inserta el nodo x en la lista.
+    /// @brief Inserta el nodo x en la lista.
+    /// @param x el nodo que se va a insertar
     void Insert(llnode<T>* x) {
         // Ingresa el nuevo nodo después del nodo centinela
         x->next = nil->next;
@@ -63,11 +67,30 @@ public:
         nil->next = x;
     };
 
-    // Busca la llave iterativamente. Si la encuentra, devuelve un apuntador al nodo que la contiene; sino devuelve el nodo nil (el centinela).
+    /// @brief Busca la llave iterativamente. 
+    /// @param k la llave a buscar
+    /// @return Si la encuentra, devuelve un apuntador al nodo que la contiene; 
+    /// sino devuelve el nodo nil (el centinela).
     llnode<T>* Search(const T& k) {
+        // Define un nodo auxiliar
+        llnode<T>* x = nil->next;
+
+        // Itera por la lista buscando por el nodo que contiene la llave
+        while (x != nil) {
+            // Revisa si el nodo actual contiene la llave
+            if (x->key == k) {
+                // Retorna el nodo
+                return x;
+            }
+            // Siguiente
+            x = x->next;
+        }
+        // Retorna nil si no encuentra ningún nodo que contenga la llave
+        return this->nil;
     };
-        
-    // Saca de la lista la llave contenida en el nodo apuntado por x.
+    
+    /// @brief Saca de la lista la llave contenida en el nodo apuntado por x.
+    /// @param x nodo a eliminar
     void Delete(llnode<T>* x) {
     };    
 };
