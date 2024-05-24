@@ -92,6 +92,8 @@ public:
     /// @brief Saca de la lista la llave contenida en el nodo apuntado por x.
     /// @param x nodo a eliminar
     void Delete(llnode<T>* x) {
+        x->prev->next = x->next;
+        x->next->prev = x->prev;
     };    
 };
 
