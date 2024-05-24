@@ -47,12 +47,27 @@ public:
     /// @brief Constructor
     /// @details Crea un árbol vacío
     bstree() {
+        this->root = nullptr;
     };
     
     /// @brief Destructor
     /// @details Borra el árbol
     ~bstree() {
+        clearTree(root);
     };
+    
+    /// @brief Método recursivo para eliminar nodos del árbol
+    /// @param x nodo raíz del subárbol por eliminar
+    void clearTree(bstnode<T>* x){
+        if (x) {
+            // Recorre el subárbol izquierdo de x
+            clearTree(x->left);
+            // Recorrel el subárbol derecho de x
+            clearTree(x->right);
+            // Elimina el nodo x
+            delete x;
+        }
+    }
     
     /// @brief Inserta el nodo z en la posición que le corresponde en el árbol.
     /// @param z nodo a insertar al árbol
