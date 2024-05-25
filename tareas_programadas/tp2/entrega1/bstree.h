@@ -72,6 +72,36 @@ public:
     /// @brief Inserta el nodo z en la posición que le corresponde en el árbol.
     /// @param z nodo a insertar al árbol
     void Insert(bstnode<T>* z) {
+        // Se inicializa x como la raīz del árbol para poder recorrerlo
+        bstnode<T>* x = root;
+        // Va a ser el puntero padre del nuevo nodo z
+        bstnode<T>* y = nullptr;
+        // Iteración a través del árbol hasta encontrar la posición 
+        // correcta de z
+        while (x != nullptr) {
+            // Sigue el rastro del último nodo no nulo en x
+            y = x;
+            // Si la llave de z es mayor que la llave en el nodo actual,
+            // se mueve x al hijo izquierdo
+            if (z->key < x->key){
+                x = x->left;
+            // Si no, se mueve al lado derecho
+            } else {
+                x = x->right;
+            }
+        }
+        // Se establece y como el padre de z
+        z->p = y;
+        // Si el árbol estaba vacío, y es nulo, z se vuelve en la nueva raíz
+        if (y == nullptr) {
+            root = z;
+        // Si la llave de z es menor a la de y, se vuelve en su hijo izquierdo
+        } else if (z->key < y->key) {
+            y->left = z;
+        // Si no, se vuelve en el hijo derecho
+        } else {
+            y->right = z;
+        }
     };
     
     /// @brief Recorre en orden el subárbol con raíz x, imprimiendo
