@@ -94,6 +94,7 @@ public:
     void Delete(llnode<T>* x) {
         x->prev->next = x->next;
         x->next->prev = x->prev;
+        delete x;
     };    
 };
 
