@@ -121,7 +121,11 @@ public:
     /// @brief Saca del árbol la llave contenida en el nodo apuntado por z.
     /// @param z el nodo por eliminar
     void Delete(bstnode<T>* z) {
-    };  
+    };
+
+    std::string ImprimirDatosDeTarea(){
+        return "C23913 Tarea 2 Etapa 1";
+    };
 };
 
 #endif /* bstree_h */

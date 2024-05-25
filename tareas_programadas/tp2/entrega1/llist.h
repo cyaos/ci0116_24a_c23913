@@ -103,7 +103,12 @@ public:
         x->next->prev = x->prev;
         // Eliminar el nodo completamente
         delete x;
-    };    
+    };
+
+    std::string ImprimirDatosDeTarea(){
+        return "C23913 Tarea 2 Etapa 1";
+    };
+
 };
 
 #endif /* llist_h */
