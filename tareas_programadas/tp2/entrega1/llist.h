@@ -54,6 +54,12 @@ public:
     /// @brief Destructor
     /// @details Borra la lista
     ~llist() {
+        // Vaciar la lista hasta que quede solo nil
+        while (nil->next != nil){
+            Delete (nil->next);
+        }
+        // Eliminar nodo nil
+        delete nil;
     };
     
     /// @brief Inserta el nodo x en la lista.
@@ -92,8 +98,10 @@ public:
     /// @brief Saca de la lista la llave contenida en el nodo apuntado por x.
     /// @param x nodo a eliminar
     void Delete(llnode<T>* x) {
+        // Sacar el nodo de la lista
         x->prev->next = x->next;
         x->next->prev = x->prev;
+        // Eliminar el nodo completamente
         delete x;
     };    
 };
