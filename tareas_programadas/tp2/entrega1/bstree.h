@@ -110,6 +110,15 @@ public:
     /// antes de recorrer el subárbol derecho.
     /// @param x nodo raíz del subárbol
     void InorderWalk(bstnode<T> *x) {
+        // Si x actual no es nulo, seguir con el recorrido
+        if (x != nullptr) {
+            // Recorrer el subárbol izquierdo de manera recursiva
+            InorderWalk(x->left);
+            // Imprimir la clave del nodo actual
+            std::cout << x->key << std::endl;
+            // Recorrer el subárbol derecho de manera recursiva
+            InorderWalk(x->right);
+        }
     };
     
     /// @brief Busca la llave k recursivamente en el subárbol con raíz x.
