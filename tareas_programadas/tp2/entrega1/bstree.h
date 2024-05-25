@@ -127,6 +127,19 @@ public:
     /// @return Si la encuentra devuelve un apuntador al nodo que la contiene,
     /// sino devuelve nullptr.
     bstnode<T>* Search(bstnode<T> *x, const T& k) {
+        // Si x no es nulo y la clave es la misma que k 
+        if (x == nullptr || k == x->key) {
+            // Devolver x
+            return x;
+        }
+        // Si la clave es menor que la llave de x
+        if (k < x->key) {
+            // Recorrer el subárbol izquierdo de x recursivamente
+            return Search(x->left, k);
+        } else {
+            // Si no, recorrer el subárbol derecho de x recursivamente
+            return Search(x->right, k);
+        }
     };
     
     /// @brief Busca la llave k iterativamente en el subarbol con raíz x.
@@ -135,6 +148,19 @@ public:
     /// @return si la encuentra devuelve un apuntador al nodo que la contiene,
     /// sino devuelve nullptr.
     bstnode<T>* IterativeSearch(bstnode<T> *x, const T& k) {
+        // Mientras x no sea puntero nulo y la clave de x no sea igual a k
+        while (x != nullptr && k != x->key) {
+            // Si la clave es menor a k
+            if (k < x->key) {
+                // Se mueve al hijo izquierdo de x
+                x = x->left;
+            } else {
+                // Si no, se mueve al hijo derecho de x
+                x = x->right;
+            }
+        }
+        // Retornar el nodo con la clave buscada
+        return x;
     };
     
     /// @brief Busca el nodo que tiene la llave menor
