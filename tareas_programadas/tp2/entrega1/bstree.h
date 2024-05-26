@@ -212,7 +212,61 @@ public:
     /// @brief Saca del árbol la llave contenida en el nodo apuntado por z.
     /// @param z el nodo por eliminar
     void Delete(bstnode<T>* z) {
+        // Si el hijo izquierdo de z es nulo
+        if (z->left == nullptr) {
+            // Reemplazar z con su subárbol derecho
+            Transplant(z, z->right);
+        // Si el hijo derecho de x es nulo
+        } else if (z->right == nullptr) {
+            // Reemplazar z con su subárbol izquierdo
+            Transplant(z, z->left);
+        // Si ambos subárboles existen
+        } else {
+            // Buscar el nodo más pequeño del subárbol derecho
+            bstnode<T>* y = Minimum(z->right);
+            // Si el padre del mínimo no es z
+            if (y->p != z) {
+                // Reemplazar y con su subárbol derecho
+                Transplant(y, y->right);
+                // EL hijo derecho de y es el hijo derecho de z
+                y->right = z->right;
+                // El padre el hijo izquierdo de y es y
+                y->right->p = y;
+            }
+            // Reemplazar z con y
+            Transplant(z, y);
+            // El hijo izquierdo de y es el hijo izquierdo de z
+            y->left = z->left;
+            // El padre del hijo izquierdo de y es y
+            y->left->p = y;
+        }
+        // Liberar z de la memoria
+        delete z;
     };
+
+    /// @brief Reemplaza el subárbol con raíz u con el subárbol con raíz v.
+    /// @details  Función utilizada en delete para que la estructura del 
+    /// árbol se mantenga válida después de realizar la eliminación de un nodo.
+    /// @param u nodo a ser reemplazado
+    /// @param v nodo que reemplazara u
+    void Transplant(bstnode<T>* u, bstnode<T>* v) {
+        // Si u es la raíz, reemplazar la raíz con v
+        if (u->p == nullptr) {
+            root = v;
+        // Si u es hijo izquierdo
+        } else if (u == u->p->left) {
+            // Reemplazar el hijo izquierdo del papa de x con v. (Reemplazar x con v)
+            u->p->left = v;
+        // Si x es hijo derecho
+        } else {
+            // Reemplazar el hijo derecho del padre de x con v. (Reemplazar x con v)
+            u->p->right = v;
+        }
+        // Si v no es nulo, el padre de x es el padre de u
+        if (v != nullptr) {
+            v->p = u->p;
+        }
+    }
 
     std::string ImprimirDatosDeTarea(){
         return "C23913 Tarea 2 Etapa 1";
