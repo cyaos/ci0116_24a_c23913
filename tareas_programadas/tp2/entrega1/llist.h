@@ -31,21 +31,36 @@ public:
     /// @brief Destructor
     ~llnode() {};
 
+    /// @brief Método para conseguir el nodo siguiente
+    /// @return el puntero al nodo siguiente
     llnode<T>* GetNext() {
         return next;
     }
 
+    /// @brief Método para conseguir el nodo previo
+    /// @return el puntero al nodo previo
     llnode<T>* GetPrev() {
         return prev;
     }
 
+    /// @brief Intercambia el puntero al nodo siguiente al nuevo
+    /// @param next el nodo por ingresar
     void SetNext(llnode<T>* next){
         this->next = next;
     }
 
+    /// @brief Intercambia el puntero al nodo previo al nuevo
+    /// @param prev el nodo por ingresar
     void SetPrev(llnode<T>* prev){
         this->prev = prev;
     }
+
+    /// @brief Método para obtener la clave del nodo
+    /// @return la clave del nodo
+    int GetKey(){
+        return key;
+    }
+
 };
 
 // Lista enlazada con nodo centinela:
@@ -100,7 +115,7 @@ public:
         // Itera por la lista buscando por el nodo que contiene la llave
         while (x != nil) {
             // Revisa si el nodo actual contiene la llave
-            if (x->key == k) {
+            if (x->GetKey() == k) {
                 // Retorna el nodo
                 return x;
             }
