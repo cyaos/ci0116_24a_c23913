@@ -168,12 +168,22 @@ public:
     /// @return devuelve el nodo con la llave menor
     /// si el árbol está vacío, devuelve nullptr.
     bstnode<T>* Minimum(bstnode<T> *x) {
+        // Busca el nodo más pequeño del árbol, el más izquierdo
+        while (x->left != nullptr) {
+            x = x->left
+        }
+        return x;
     };
     
     /// @brief Busca el nodo que tiene la llave mayor
     /// @param x nodo raíz del subárbol por recorrer
     /// @return retorna el nodo mayor y si el árbol esta vacío devuelve nullptr.
     bstnode<T>* Maximum(bstnode<T> *x) {
+        // Busca el nodo más pequeño del árbol, el más derecho
+        while (x->right != nullptr) {
+            x = x->right;
+        }
+        return x;
     };
     
     /// @brief Busca el nodo que le sigue al nodo x
@@ -181,6 +191,22 @@ public:
     /// @return el nodo cuya llave es la que le sigue a la del nodo x.
     /// Si no existe el nodo, devuelve nullptr.
     bstnode<T>* Successor(bstnode<T> *x) {
+        // Si el subárbol derecho no es nulo, devolver el nodo más pequeño
+        if (x->right != nullptr) {
+            return Minimum(x->right);
+        } else {
+            // y es el padre de x
+            bstnode<T>* y = x->p;
+            // Mientras y no sea nulo y x sea el hijo derecho de y
+            while (y != nullptr && x == y->right) {
+                // Subir de nivel en el árbol
+                x = y;
+                // Seguir subiendo
+                y = y->p;
+            }
+            // Devolver y que es el sucesor de x
+            return y;
+        }
     };
     
     /// @brief Saca del árbol la llave contenida en el nodo apuntado por z.
