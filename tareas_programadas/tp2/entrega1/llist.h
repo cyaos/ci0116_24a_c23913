@@ -30,6 +30,22 @@ public:
 
     /// @brief Destructor
     ~llnode() {};
+
+    llnode<T>* GetNext() {
+        return next;
+    }
+
+    llnode<T>* GetPrev() {
+        return prev;
+    }
+
+    void SetNext(llnode<T>* next){
+        this->next = next;
+    }
+
+    void SetPrev(llnode<T>* prev){
+        this->prev = prev;
+    }
 };
 
 // Lista enlazada con nodo centinela:
@@ -47,16 +63,16 @@ public:
         // Creación de un nodo centinela
         nil = new llnode<T>();
         // Se apunta a si mismo
-        nil->prev = nil;
-        nil->next = nil;
+        nil->SetPrev(nil);
+        nil->SetNext(nil);
     };
     
     /// @brief Destructor
     /// @details Borra la lista
     ~llist() {
         // Vaciar la lista hasta que quede solo nil
-        while (nil->next != nil){
-            Delete (nil->next);
+        while (nil->GetNext() != nil){
+            Delete(nil->GetNext());
         }
         // Eliminar nodo nil
         delete nil;
@@ -66,11 +82,11 @@ public:
     /// @param x el nodo que se va a insertar
     void Insert(llnode<T>* x) {
         // Ingresa el nuevo nodo después del nodo centinela
-        x->next = nil->next;
-        x->prev = nil;
+        x->SetNext(nil->GetNext());
+        x->SetPrev(nil);
         // Actualiza los punteros de nil y el nodo "next" anterior
-        nil->next->prev = x;
-        nil->next = x;
+        nil->GetNext()->SetPrev(x);
+        nil->SetNext(x);
     };
 
     /// @brief Busca la llave iterativamente. 
@@ -79,7 +95,7 @@ public:
     /// sino devuelve el nodo nil (el centinela).
     llnode<T>* Search(const T& k) {
         // Define un nodo auxiliar
-        llnode<T>* x = nil->next;
+        llnode<T>* x = nil->GetNext();
 
         // Itera por la lista buscando por el nodo que contiene la llave
         while (x != nil) {
@@ -89,7 +105,7 @@ public:
                 return x;
             }
             // Siguiente
-            x = x->next;
+            x = x->GetNext();
         }
         // Retorna nil si no encuentra ningún nodo que contenga la llave
         return this->nil;
@@ -99,8 +115,8 @@ public:
     /// @param x nodo a eliminar
     void Delete(llnode<T>* x) {
         // Sacar el nodo de la lista
-        x->prev->next = x->next;
-        x->next->prev = x->prev;
+        x->GetPrev()->SetNext(x->GetNext());
+        x->GetNext()->SetPrev(x->GetPrev());
         // Eliminar el nodo completamente
         delete x;
     };
