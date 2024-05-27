@@ -32,6 +32,48 @@ public:
     /// @brief Destructor
     ~bstnode() {
     };
+
+    /// @brief Para conseguir la clave del nodo
+    /// @return la clave del nodo
+    int GetKey(){
+        return key;
+    }
+
+    /// @brief Para conseguir el padre del nodo
+    /// @return el padre del nodo
+    bstnode<T>* GetParent(){
+        return p;
+    }
+
+    /// @brief Para conseguir el hijo izquierdo del nodo
+    /// @return el hijo izquierdo del nodo
+    bstnode<T>* GetLeft(){
+        return left;
+    }
+
+    /// @brief Para conseguir el hijo derecho del nodo
+    /// @return el hijo derecho del nodo
+    bstnode<T>* GetRight(){
+        return right;
+    }
+
+    /// @brief Para definir un nuevo padre al nodo
+    /// @param p nuevo padre
+    void SetParent(bstnode<T>* p){
+        this->p = p;
+    }
+
+    /// @brief Para definir un nuevo hijo izquierdo del nodo
+    /// @param left nuevo hijo izquierdo
+    void SetLeft(bstnode<T>* left){
+        this->left = left;
+    }
+
+    /// @brief Para definir un nuevo hijo derecho
+    /// @param right nuevo hijo derecho
+    void SetRight(bstnode<T>* right){
+        this->right = right;
+    }
 };
 
 // Árbol de búsqueda binario:
@@ -61,12 +103,57 @@ public:
     void clearTree(bstnode<T>* x){
         if (x) {
             // Recorre el subárbol izquierdo de x
-            clearTree(x->left);
+            clearTree(x->GetLeft());
             // Recorrel el subárbol derecho de x
-            clearTree(x->right);
+            clearTree(x->GetRight());
             // Elimina el nodo x
             delete x;
         }
+    }
+
+    /// @brief Para conseguir el nodo raíz del árbol
+    /// @return la raíz del árbol
+    bstnode<T>* GetRoot(){
+        return root;
+    }
+
+    /// @brief Construye un árbol balanceado con n elementos
+    /// @details un método extra solo para la prueba de entrada ordenada
+    /// @param n el número de elementos
+    void buildBalancedBST(int n) {
+        // Llama la construcción recursiva
+        root = buildBalancedBSTHelper(0, n - 1);
+    }
+
+    /// @brief Método de ayuda para crear un árbol de manera recursiva
+    /// @param start el índice de inicio del rango actual
+    /// @param end  el índice de finalización del rango actual
+    /// @return puntero el nodo raíz del subárbol creado
+    bstnode<T>* buildBalancedBSTHelper(int start, int end) {
+        // Si el indice de inicio es mayor que el indice final, devolver un puntero nulo
+        if (start > end) {
+            return nullptr;
+        }
+        // Calcular el elemento del medio
+        int mid = start + (end - start) / 2;
+        // Construcción de un nodo con el elemento del medio
+        bstnode<T>* node = new bstnode<T>(mid);
+        // Crea el subárbol izquierdo de manera recursiva
+        node->SetLeft(buildBalancedBSTHelper(start, mid - 1));
+        // SI el hijo izquierdo del nodo no es nulo, cambiar el 
+        // puntero padre del hijo izquierdo al nodo actual.
+        if (node->GetLeft() != nullptr) {
+            node->GetLeft()->SetParent(node);
+        }
+        // Crea el subárbol derecho de manera recursiva
+        node->SetRight(buildBalancedBSTHelper(mid + 1, end));
+        // SI el hijo derecho del nodo no es nulo, cambiar el 
+        // puntero padre del hijo derecho al nodo actual.
+        if (node->GetRight() != nullptr) {
+            node->GetRight()->SetParent(node);
+        }
+
+        return node;
     }
     
     /// @brief Inserta el nodo z en la posición que le corresponde en el árbol.
@@ -83,24 +170,24 @@ public:
             y = x;
             // Si la llave de z es mayor que la llave en el nodo actual,
             // se mueve x al hijo izquierdo
-            if (z->key < x->key){
-                x = x->left;
+            if (z->GetKey() < x->GetKey()){
+                x = x->GetLeft();
             // Si no, se mueve al lado derecho
             } else {
-                x = x->right;
+                x = x->GetRight();
             }
         }
         // Se establece y como el padre de z
-        z->p = y;
+        z->SetParent(y);
         // Si el árbol estaba vacío, y es nulo, z se vuelve en la nueva raíz
         if (y == nullptr) {
             root = z;
         // Si la llave de z es menor a la de y, se vuelve en su hijo izquierdo
-        } else if (z->key < y->key) {
-            y->left = z;
+        } else if (z->GetKey() < y->GetKey()) {
+            y->SetLeft(z);
         // Si no, se vuelve en el hijo derecho
         } else {
-            y->right = z;
+            y->SetRight(z);
         }
     };
     
@@ -113,11 +200,11 @@ public:
         // Si x actual no es nulo, seguir con el recorrido
         if (x != nullptr) {
             // Recorrer el subárbol izquierdo de manera recursiva
-            InorderWalk(x->left);
+            InorderWalk(x->GetLeft());
             // Imprimir la clave del nodo actual
-            std::cout << x->key << std::endl;
+            std::cout << x->GetKey() << std::endl;
             // Recorrer el subárbol derecho de manera recursiva
-            InorderWalk(x->right);
+            InorderWalk(x->GetRight());
         }
     };
     
@@ -128,17 +215,17 @@ public:
     /// sino devuelve nullptr.
     bstnode<T>* Search(bstnode<T> *x, const T& k) {
         // Si x no es nulo y la clave es la misma que k 
-        if (x == nullptr || k == x->key) {
+        if (x == nullptr || k == x->GetKey()) {
             // Devolver x
             return x;
         }
         // Si la clave es menor que la llave de x
-        if (k < x->key) {
+        if (k < x->GetKey()) {
             // Recorrer el subárbol izquierdo de x recursivamente
-            return Search(x->left, k);
+            return Search(x->GetLeft(), k);
         } else {
             // Si no, recorrer el subárbol derecho de x recursivamente
-            return Search(x->right, k);
+            return Search(x->GetRight(), k);
         }
     };
     
@@ -149,14 +236,14 @@ public:
     /// sino devuelve nullptr.
     bstnode<T>* IterativeSearch(bstnode<T> *x, const T& k) {
         // Mientras x no sea puntero nulo y la clave de x no sea igual a k
-        while (x != nullptr && k != x->key) {
+        while (x != nullptr && k != x->GetKey()) {
             // Si la clave es menor a k
-            if (k < x->key) {
+            if (k < x->GetKey()) {
                 // Se mueve al hijo izquierdo de x
-                x = x->left;
+                x = x->GetLeft();
             } else {
                 // Si no, se mueve al hijo derecho de x
-                x = x->right;
+                x = x->GetRight();
             }
         }
         // Retornar el nodo con la clave buscada
@@ -169,8 +256,8 @@ public:
     /// si el árbol está vacío, devuelve nullptr.
     bstnode<T>* Minimum(bstnode<T> *x) {
         // Busca el nodo más pequeño del árbol, el más izquierdo
-        while (x->left != nullptr) {
-            x = x->left
+        while (x->GetLeft() != nullptr) {
+            x = x->GetLeft();
         }
         return x;
     };
@@ -180,8 +267,8 @@ public:
     /// @return retorna el nodo mayor y si el árbol esta vacío devuelve nullptr.
     bstnode<T>* Maximum(bstnode<T> *x) {
         // Busca el nodo más pequeño del árbol, el más derecho
-        while (x->right != nullptr) {
-            x = x->right;
+        while (x->GetRight() != nullptr) {
+            x = x->GetRight();
         }
         return x;
     };
@@ -192,17 +279,17 @@ public:
     /// Si no existe el nodo, devuelve nullptr.
     bstnode<T>* Successor(bstnode<T> *x) {
         // Si el subárbol derecho no es nulo, devolver el nodo más pequeño
-        if (x->right != nullptr) {
-            return Minimum(x->right);
+        if (x->GetRight() != nullptr) {
+            return Minimum(x->GetRight());
         } else {
             // y es el padre de x
-            bstnode<T>* y = x->p;
+            bstnode<T>* y = x->GetParent();
             // Mientras y no sea nulo y x sea el hijo derecho de y
-            while (y != nullptr && x == y->right) {
+            while (y != nullptr && x == y->GetRight()) {
                 // Subir de nivel en el árbol
                 x = y;
                 // Seguir subiendo
-                y = y->p;
+                y = y->GetParent();
             }
             // Devolver y que es el sucesor de x
             return y;
@@ -215,30 +302,30 @@ public:
         // Si el hijo izquierdo de z es nulo
         if (z->left == nullptr) {
             // Reemplazar z con su subárbol derecho
-            Transplant(z, z->right);
+            Transplant(z, z->GetRight());
         // Si el hijo derecho de x es nulo
-        } else if (z->right == nullptr) {
+        } else if (z->GetRight() == nullptr) {
             // Reemplazar z con su subárbol izquierdo
-            Transplant(z, z->left);
+            Transplant(z, z->GetLeft());
         // Si ambos subárboles existen
         } else {
             // Buscar el nodo más pequeño del subárbol derecho
-            bstnode<T>* y = Minimum(z->right);
+            bstnode<T>* y = Minimum(z->GetRight());
             // Si el padre del mínimo no es z
-            if (y->p != z) {
+            if (y->GetParent() != z) {
                 // Reemplazar y con su subárbol derecho
-                Transplant(y, y->right);
+                Transplant(y, y->GetRight());
                 // EL hijo derecho de y es el hijo derecho de z
-                y->right = z->right;
+                y->SetRight(z->GetRight());
                 // El padre el hijo izquierdo de y es y
-                y->right->p = y;
+                y->GetRight()->SetParent(y);
             }
             // Reemplazar z con y
             Transplant(z, y);
             // El hijo izquierdo de y es el hijo izquierdo de z
-            y->left = z->left;
+            y->SetLeft(z->GetLeft());
             // El padre del hijo izquierdo de y es y
-            y->left->p = y;
+            y->GetLeft()->SetParent(y);
         }
         // Liberar z de la memoria
         delete z;
@@ -251,20 +338,20 @@ public:
     /// @param v nodo que reemplazara u
     void Transplant(bstnode<T>* u, bstnode<T>* v) {
         // Si u es la raíz, reemplazar la raíz con v
-        if (u->p == nullptr) {
+        if (u->GetParent() == nullptr) {
             root = v;
         // Si u es hijo izquierdo
-        } else if (u == u->p->left) {
+        } else if (u == u->GetParent()->GetLeft()) {
             // Reemplazar el hijo izquierdo del papa de x con v. (Reemplazar x con v)
-            u->p->left = v;
+            u->GetParent()->SetLeft(v);
         // Si x es hijo derecho
         } else {
             // Reemplazar el hijo derecho del padre de x con v. (Reemplazar x con v)
-            u->p->right = v;
+            u->GetParent()->SetRight(v);
         }
         // Si v no es nulo, el padre de x es el padre de u
         if (v != nullptr) {
-            v->p = u->p;
+            v->SetParent(u->GetParent());
         }
     }
 
