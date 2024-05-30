@@ -12,21 +12,19 @@ class llnode
 private:
     /// Llave del nodo
     T key;
-    /// Puntero al nodo anterior y al siguiente
-    llnode<T> *prev, *next;
+    /// Puntero al nodo siguiente
+    llnode<T> *next;
 
 public:
     /// @brief Constructor por omisión
     llnode() {
-        this->prev = nullptr;
         this->next = nullptr;
     };
     
     /// @brief Inicialización de los datos miembro.
     /// @param k llave del nodo
-    /// @param w puntero al nodo siguiente
     /// @param y puntero al nodo anterior
-    llnode (const T& k, llnode<T> *w = nullptr, llnode<T> *y = nullptr):key(k), prev(w), next(y)  {};
+    llnode (const T& k, llnode<T> *y = nullptr):key(k), next(y)  {};
 
     /// @brief Destructor
     ~llnode() {};
@@ -37,22 +35,10 @@ public:
         return next;
     }
 
-    /// @brief Método para conseguir el nodo previo
-    /// @return el puntero al nodo previo
-    llnode<T>* GetPrev() {
-        return prev;
-    }
-
     /// @brief Intercambia el puntero al nodo siguiente al nuevo
     /// @param next el nodo por ingresar
     void SetNext(llnode<T>* next){
         this->next = next;
-    }
-
-    /// @brief Intercambia el puntero al nodo previo al nuevo
-    /// @param prev el nodo por ingresar
-    void SetPrev(llnode<T>* prev){
-        this->prev = prev;
     }
 
     /// @brief Método para obtener la clave del nodo
@@ -78,7 +64,6 @@ public:
         // Creación de un nodo centinela
         nil = new llnode<T>();
         // Se apunta a si mismo
-        nil->SetPrev(nil);
         nil->SetNext(nil);
     };
     
@@ -98,9 +83,7 @@ public:
     void Insert(llnode<T>* x) {
         // Ingresa el nuevo nodo después del nodo centinela
         x->SetNext(nil->GetNext());
-        x->SetPrev(nil);
-        // Actualiza los punteros de nil y el nodo "next" anterior
-        nil->GetNext()->SetPrev(x);
+        // Actualiza el puntero de nil
         nil->SetNext(x);
     };
 
@@ -129,11 +112,21 @@ public:
     /// @brief Saca de la lista la llave contenida en el nodo apuntado por x.
     /// @param x nodo a eliminar
     void Delete(llnode<T>* x) {
-        // Sacar el nodo de la lista
-        x->GetPrev()->SetNext(x->GetNext());
-        x->GetNext()->SetPrev(x->GetPrev());
-        // Eliminar el nodo completamente
-        delete x;
+        // Define un nodo auxiliar para encontrar el nodo anterior
+        llnode<T>* prev = nil;
+        llnode<T>* curr = nil->GetNext();
+        
+        // Itera por la lista buscando el nodo a eliminar
+        while (curr != nil && curr != x) {
+            prev = curr;
+            curr = curr->GetNext();
+        }
+        
+        // Si el nodo fue encontrado, eliminarlo de la lista
+        if (curr == x) {
+            prev->SetNext(curr->GetNext());
+            delete curr;
+        }
     };
 
     std::string ImprimirDatosDeTarea(){
