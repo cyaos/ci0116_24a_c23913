@@ -116,44 +116,20 @@ public:
     bstnode<T>* GetRoot(){
         return root;
     }
+    
+    /// @brief Método para crear un árbol con inserciónes ordenadas
+    /// @param n número de elementos
+    void OrderedTree(int n) {
+        root = new bstnode<int>(0);
+        bstnode<int>* aux = root;
 
-    /// @brief Construye un árbol balanceado con n elementos
-    /// @details un método extra solo para la prueba de entrada ordenada
-    /// @param n el número de elementos
-    void buildBalancedBST(int n) {
-        // Llama la construcción recursiva
-        root = buildBalancedBSTHelper(0, n - 1);
-    }
-
-    /// @brief Método de ayuda para crear un árbol de manera recursiva
-    /// @param start el índice de inicio del rango actual
-    /// @param end  el índice de finalización del rango actual
-    /// @return puntero el nodo raíz del subárbol creado
-    bstnode<T>* buildBalancedBSTHelper(int start, int end) {
-        // Si el indice de inicio es mayor que el indice final, devolver un puntero nulo
-        if (start > end) {
-            return nullptr;
+        for (int i = 1; i < n; i++){
+            bstnode<int>* newNode = new bstnode<int>(i);
+            aux->SetRight(newNode);
+            newNode->SetParent(aux);
+            aux = newNode;
+            std::cout << i << std::endl;
         }
-        // Calcular el elemento del medio
-        int mid = start + (end - start) / 2;
-        // Construcción de un nodo con el elemento del medio
-        bstnode<T>* node = new bstnode<T>(mid);
-        // Crea el subárbol izquierdo de manera recursiva
-        node->SetLeft(buildBalancedBSTHelper(start, mid - 1));
-        // SI el hijo izquierdo del nodo no es nulo, cambiar el 
-        // puntero padre del hijo izquierdo al nodo actual.
-        if (node->GetLeft() != nullptr) {
-            node->GetLeft()->SetParent(node);
-        }
-        // Crea el subárbol derecho de manera recursiva
-        node->SetRight(buildBalancedBSTHelper(mid + 1, end));
-        // SI el hijo derecho del nodo no es nulo, cambiar el 
-        // puntero padre del hijo derecho al nodo actual.
-        if (node->GetRight() != nullptr) {
-            node->GetRight()->SetParent(node);
-        }
-
-        return node;
     }
     
     /// @brief Inserta el nodo z en la posición que le corresponde en el árbol.
@@ -214,6 +190,7 @@ public:
     /// @return Si la encuentra devuelve un apuntador al nodo que la contiene,
     /// sino devuelve nullptr.
     bstnode<T>* Search(bstnode<T> *x, const T& k) {
+        std::cout << "Search" << std::endl;
         // Si x no es nulo y la clave es la misma que k 
         if (x == nullptr || k == x->GetKey()) {
             // Devolver x
@@ -359,6 +336,8 @@ public:
         return "C23913 Tarea 2 Etapa 1";
     };
 };
+
+
 
 #endif /* bstree_h */
 
