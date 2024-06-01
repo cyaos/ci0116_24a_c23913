@@ -116,19 +116,20 @@ public:
     bstnode<T>* GetRoot(){
         return root;
     }
-    
+
     /// @brief Método para crear un árbol con inserciónes ordenadas
     /// @param n número de elementos
     void OrderedTree(int n) {
+        // Insertar primer nodo como la raíz
         root = new bstnode<int>(0);
         bstnode<int>* aux = root;
 
+        // Va creando cada nodo e insertándolo como una lista
         for (int i = 1; i < n; i++){
             bstnode<int>* newNode = new bstnode<int>(i);
             aux->SetRight(newNode);
             newNode->SetParent(aux);
             aux = newNode;
-            std::cout << i << std::endl;
         }
     }
     
