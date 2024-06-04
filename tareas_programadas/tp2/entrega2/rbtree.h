@@ -31,7 +31,7 @@ public:
     /// @param y hijo izquierdo del nodo
     /// @param z hijo derecho del nodo
     /// @param c color del nodo
-    rbtnode (const T& k, rbtnode<T> *w = nullptr, rbtnode<T> *y = nullptr, rbtnode<T> *z = nullptr, enum colors c = RED): key(k), p(w), left(y), right(z), color(c) {};
+    rbtnode (const T& k, rbtnode<T> *w = nullptr, rbtnode<T> *y = nullptr, rbtnode<T> *z = nullptr, colors c = RED): key(k), p(w), left(y), right(z), color(c) {};
     
     /// @brief Destructor del nodo
     ~rbtnode() {
@@ -72,16 +72,16 @@ public:
     rbtnode<T>* getRight() {
         return this->right;
     }
-    
+
     /// @brief Colocar el color del nodo
     /// @param c el color por ingresar
-    void setColor(enum colors c){
+    void setColor(colors c){
         this->color = c;
     }
 
     /// @brief Conseguir el color del nodo
     /// @return el color del nodo
-    enum colors getColor(){
+    colors getColor(){
         return this->color;
     }
 };
