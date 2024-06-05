@@ -135,34 +135,94 @@ public:
     
     /// @brief Inserta el nodo z en la posición que le corresponde en el árbol.
     void Insert(rbtnode<T>* z) {
+        // Atributos auxiliares
         rbtnode<T>* x = root;
         rbtnode<T>* y = nil;
+        // Mientras x no sea nulo
         while (x != nil) {
             y = x;
+            // Comparar la clave de x con el nuevo nodo
+            // Si es menor, iterar al hijo izquierdo
+            // Si es mayor, iterar al hijo derecho
             if (z->GetKey() < x->key){
                 x = x->GetLeft();
             } else {
                 x = x->right();
             }
         }
+
+        // Hacer y el padre de z
         z->SetPadre(y);
 
+        // Si y es nulo, hacer z la raíz del árbol
         if (y == nil) {
             root = z;
+        // Si la clave de z es menor que la clave de y, hacer z el hijo
+        // izquierda de y. Si no, hijo derecho.
         } else if (z->GetKey() < y->GetKey()) {
             y->SetLeft(z);
         } else {
             y->SetRight(z);
         }
 
+        // Volver los hijos de Z negro y nulo
         z->SetLeft(nil);
         z->SetRight(nil);
+        // Volver z en un nodo rojo
         z->SetColor(RED);
+
+        // Arreglar el árbol para que cumpla todos los requerimientos de un árbol rojinegro
         InsertFixUp(z);
     };
 
-    void InsertFixUp(rbtnode<T>* z){};
+    void InsertFixUp(rbtnode<T>* z) {
+        while(z->GetPadre()->GetColor() == RED){
+            if (z->GetPadre() == z->GetPadre()->GetPadre()->GetLeft()){
+                rbtnode<T>* y = z->GetPadre()->GetPadre()->GetRight();
+                if (y->GetColor() == RED) {
+                    z->GetPadre()->SetColor(BLACK);
+                    y->SetColor(BLACK);
+                    z->GetPadre()->GetPadre()->SetColor(RED);
+                    z = z->GetPadre()->GetPadre();
+                } else {
+                    if (z == z->GetPadre()->GetRight()){
+                        z = z->GetPadre();
+                        RotateLeft(z);
+                    }
+                    z->GetPadre()->SetColor(BLACK);
+                    z->GetPadre()->GetPadre()->SetColor(RED);
+                    RotateRight(z->GetPadre()->GetPadre());
+                }
+            } else {
+                rbtnode<T>* y = z->GetPadre()->GetPadre()->GetLeft();
+                if (y->GetColor() == RED) {
+                    z->GetPadre()->SetColor(BLACK);
+                    y->SetColor(BLACK);
+                    z->GetPadre()->GetPadre()->SetColor(RED);
+                    z = z->GetPadre()->GetPadre();
+                } else {
+                    if (z == z->GetPadre()->GetLeft()){
+                        z = z->GetPadre();
+                        RotateRight(z);
+                    }
+                    z->GetPadre()->SetColor(BLACK);
+                    z->GetPadre()->GetPadre()->SetColor(RED);
+                    RotateLeft(z->GetPadre()->GetPadre());
+                }
+
+            }
+        }
+        root->SetColor(BLACK);
+    };
+
+    /// @brief Hace rotación del nodo a la izquierda
+    /// @param z nodo por rotar
+    void RotateLeft(rbtnode<T>* z) {};
     
+    /// @brief Hace rotación del nodo a la derecha
+    /// @param z nodo por rotar
+    void RotateRight(rbtnode<T>* z) {};
+
     void InorderWalk(rbtnode<T> *x) {
         // Recorre en orden el subarbol con raíz x, imprimiendo la llave de cada nodo en en una nueva linea de la salida estandar despues de recorrido el subarbol izquierdo y antes de recorrer el subarbol derecho.
     };
