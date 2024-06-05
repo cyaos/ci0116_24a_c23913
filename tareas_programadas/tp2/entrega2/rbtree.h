@@ -176,24 +176,37 @@ public:
     };
 
     void InsertFixUp(rbtnode<T>* z) {
+        // Si el padre del nodo es rojo
         while(z->GetPadre()->GetColor() == RED){
+            // Si el padre es hijo izquierdo
             if (z->GetPadre() == z->GetPadre()->GetPadre()->GetLeft()){
+                // y guarda al tio de z
                 rbtnode<T>* y = z->GetPadre()->GetPadre()->GetRight();
+                // Si el tio es un nodo rojo
                 if (y->GetColor() == RED) {
+                    // Hacer el padre y el tio negro
                     z->GetPadre()->SetColor(BLACK);
                     y->SetColor(BLACK);
+                    // Hacer el abuelo rojo
                     z->GetPadre()->GetPadre()->SetColor(RED);
+                    // z se vuelve en el abuelo
                     z = z->GetPadre()->GetPadre();
                 } else {
+                    // Si z es un hijo derecho
                     if (z == z->GetPadre()->GetRight()){
+                        // z se vuelve en su padre
                         z = z->GetPadre();
+                        // Se rota z a la izquierda
                         RotateLeft(z);
                     }
+                    // Cambiar el color del padre a negro y el del abuelo a rojo
                     z->GetPadre()->SetColor(BLACK);
                     z->GetPadre()->GetPadre()->SetColor(RED);
+                    // Rotar el abuelo de z a la derecha
                     RotateRight(z->GetPadre()->GetPadre());
                 }
             } else {
+                // ES LO MISMO QUE LO ANTERIOR PERO SE INTERCAMBIA DERECHA CON IZQUIERDA
                 rbtnode<T>* y = z->GetPadre()->GetPadre()->GetLeft();
                 if (y->GetColor() == RED) {
                     z->GetPadre()->SetColor(BLACK);
@@ -212,13 +225,14 @@ public:
 
             }
         }
+        // Volver la raíz del árbol negro
         root->SetColor(BLACK);
     };
 
     /// @brief Hace rotación del nodo a la izquierda
     /// @param z nodo por rotar
     void RotateLeft(rbtnode<T>* z) {};
-    
+
     /// @brief Hace rotación del nodo a la derecha
     /// @param z nodo por rotar
     void RotateRight(rbtnode<T>* z) {};
