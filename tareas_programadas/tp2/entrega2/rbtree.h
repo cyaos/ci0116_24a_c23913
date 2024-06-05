@@ -231,7 +231,35 @@ public:
 
     /// @brief Hace rotación del nodo a la izquierda
     /// @param z nodo por rotar
-    void RotateLeft(rbtnode<T>* z) {};
+    void RotateLeft(rbtnode<T>* z) {
+        rbtnode<T>* y = z->GetRight();
+        // Volver el subárbol izquierdo de y en el subárbol derecho de z
+        z->GetRight() = y->GetLeft();
+        // Si el subárbol izquierdo de y no es nulo
+        if (y->GetLeft() != nil){
+            // Volver z en el padre del subárbol izquierdo de y
+            y->GetLeft()->SetPadre(z);
+        }
+        // Volver el padre de y en el padre de z
+        y->SetPadre(z->GetPadre());
+
+        // Si z es la raíz
+        if (z->GetPadre() == nil) {
+            // y se vuelve en la nueva raíz
+            this->root = y;
+        // Si no, si z es un hijo izquierdo
+        } else if (z == z->GetPadre()->GetLeft()) {
+            // y se vuelve en el hijo izquierdo del padre de z
+            z->GetPadre()->SetLeft(y);
+        } else {
+            // Si no, el hijo derecho del padre de z se vuelve en y
+            z->GetPadre()->SetRight(y);
+        }
+        // Volver z en el hijo izquierdo de y
+        y->SetLeft(z);
+        // Volver y en el padre de z
+        z->SetPadre(y)
+    };
 
     /// @brief Hace rotación del nodo a la derecha
     /// @param z nodo por rotar
