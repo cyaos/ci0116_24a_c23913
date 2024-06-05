@@ -37,51 +37,57 @@ public:
     ~rbtnode() {
     };
 
+    /// @brief Conseguir la clave del nodo
+    /// @return la clave del nodo
+    int GetKey() {
+        return this->key;
+    }
+
     /// @brief Colocar el padre del nodo
     /// @param y nodo padre por ingresar
-    void setPadre(rbtnode<T>* w) {
+    void SetPadre(rbtnode<T>* w) {
         this->p = w;
     };
 
     /// @brief Conseguir el padre del nodo
     /// @return el padre del nodo
-    rbtnode<T>* getPadre(){
+    rbtnode<T>* GetPadre(){
         return this->p;
     }
 
     /// @brief Colocar nodo hijo izquierdo
     /// @param y nodo izquierdo por ingresar
-    void setLeft(rbtnode<T>* y) {
+    void SetLeft(rbtnode<T>* y) {
         this->left = y;
     };
 
     /// @brief Conseguir el nodo del hijo izquierdo
     /// @return hijo izquierdo del nodo
-    rbtnode<T>* getLeft() {
+    rbtnode<T>* GetLeft() {
         return this->left;
     }
 
     /// @brief Colocar nodo hijo derecho
     /// @param z nodo derecho por ingresar
-    void setRight(rbtnode<T>* z) {
+    void SetRight(rbtnode<T>* z) {
         this->right = z;
     }
 
     /// @brief Conseguir el nodo del hijo derecho
     /// @return hijo derecha del nodo
-    rbtnode<T>* getRight() {
+    rbtnode<T>* GetRight() {
         return this->right;
     }
 
     /// @brief Colocar el color del nodo
     /// @param c el color por ingresar
-    void setColor(colors c){
+    void SetColor(colors c){
         this->color = c;
     }
 
     /// @brief Conseguir el color del nodo
     /// @return el color del nodo
-    colors getColor(){
+    colors GetColor(){
         return this->color;
     }
 };
@@ -90,15 +96,17 @@ public:
 template <typename T>
 class rbtree {
 public:
-    rbtnode<T> *root;    // raíz del árbol
-    rbtnode<T> *nil;     // nodo nil (hoja) del árbol
+    /// raíz del árbol
+    rbtnode<T> *root;
+    /// nodo nil (hoja) del árbol
+    rbtnode<T> *nil;
     
     /// @brief Constructor del árbol rojinegro
     /// @details crea un árbol vacío.
     rbtree() {
         // Inicializa el nodo nil y lo vuelve negro
         this->nil = new rbtnode<T>();
-        nil->setColor(BLACK);
+        nil->SetColor(BLACK);
         // El nodo nil se vuelve la raíz
         this->root = this->nil;
     };
@@ -121,13 +129,39 @@ public:
             // Llama recursivamente los nodos derechos
             destroyTree(node->right);
             // Libera la memoria del nodo actual
-            delete node;
+            delete n;
         }
     }
     
+    /// @brief Inserta el nodo z en la posición que le corresponde en el árbol.
     void Insert(rbtnode<T>* z) {
-        // Inserta el nodo z en la posición que le corresponde en el árbol.
+        rbtnode<T>* x = root;
+        rbtnode<T>* y = nil;
+        while (x != nil) {
+            y = x;
+            if (z->GetKey() < x->key){
+                x = x->GetLeft();
+            } else {
+                x = x->right();
+            }
+        }
+        z->SetPadre(y);
+
+        if (y == nil) {
+            root = z;
+        } else if (z->GetKey() < y->GetKey()) {
+            y->SetLeft(z);
+        } else {
+            y->SetRight(z);
+        }
+
+        z->SetLeft(nil);
+        z->SetRight(nil);
+        z->SetColor(RED);
+        InsertFixUp(z);
     };
+
+    void InsertFixUp(rbtnode<T>* z){};
     
     void InorderWalk(rbtnode<T> *x) {
         // Recorre en orden el subarbol con raíz x, imprimiendo la llave de cada nodo en en una nueva linea de la salida estandar despues de recorrido el subarbol izquierdo y antes de recorrer el subarbol derecho.
