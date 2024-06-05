@@ -234,7 +234,7 @@ public:
     void RotateLeft(rbtnode<T>* z) {
         rbtnode<T>* y = z->GetRight();
         // Volver el subárbol izquierdo de y en el subárbol derecho de z
-        z->GetRight() = y->GetLeft();
+        z->SetRight(y->GetLeft());
         // Si el subárbol izquierdo de y no es nulo
         if (y->GetLeft() != nil){
             // Volver z en el padre del subárbol izquierdo de y
@@ -263,7 +263,36 @@ public:
 
     /// @brief Hace rotación del nodo a la derecha
     /// @param z nodo por rotar
-    void RotateRight(rbtnode<T>* z) {};
+    void RotateRight(rbtnode<T>* z) {
+        rbtnode<T>* y = z->GetLeft();
+        // Volver el subárbol derecho de y en el subárbol izquierdo de z
+        z->SetLeft(y->GetRight());
+        // Si el subárbol derecho de y no es nulo
+        if (y->GetRight() != nil) {
+            // Volver z en el padre del subárbol derecho de y
+            y->GetRight()->SetPadre(z);
+        }
+        // Volver el padre de y en el padre de z
+        y->SetPadre(z->GetPadre());
+
+        // Si z es la raíz
+        if (z->GetPadre() == nil) {
+            // y se vuelve en la nueva raíz
+            this->root = y;
+        // Si no, si z es un hijo derecho
+        } else if (z == z->GetPadre()->GetRight()) {
+            // y se vuelve en el hijo derecho del padre de z
+            z->GetPadre()->SetRight(y);
+        } else {
+            // Si no, el hijo izquierdo del padre de z se vuelve en y
+            z->GetPadre()->SetLeft(y);
+        }
+        // Volver z en el hijo derecho de y
+        y->SetRight(z);
+        // Volver y en el padre de z
+        z->SetPadre(y);
+    };
+
 
     void InorderWalk(rbtnode<T> *x) {
         // Recorre en orden el subarbol con raíz x, imprimiendo la llave de cada nodo en en una nueva linea de la salida estandar despues de recorrido el subarbol izquierdo y antes de recorrer el subarbol derecho.
