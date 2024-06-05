@@ -93,13 +93,37 @@ public:
     rbtnode<T> *root;    // raíz del árbol
     rbtnode<T> *nil;     // nodo nil (hoja) del árbol
     
+    /// @brief Constructor del árbol rojinegro
+    /// @details crea un árbol vacío.
     rbtree() {
-        // Constructor (crea un árbol vacío)
+        // Inicializa el nodo nil y lo vuelve negro
+        this->nil = new rbtnode<T>();
+        nil->setColor(BLACK);
+        // El nodo nil se vuelve la raíz
+        this->root = this->nil;
     };
-    
+
+    /// @brief Destructor del àrbol rojinegro
+    /// @details vacía el árbol
     ~rbtree() {
-        // Destructor (borra el árbol)
+        // Se llama una función que libera memoria de manera recursiva
+        destroyTree(root);
+        // Se libera la memoria del nodo nulo
+        delete nil;
     };
+
+    /// @brief Destructor del árbol recursivo
+    /// @param n nodo actual
+    void destroyTree(rbtnode<T>* n){
+        if (node != nil) {
+            // Llama recursivamente los nodos izquierdos 
+            destroyTree(node->left);
+            // Llama recursivamente los nodos derechos
+            destroyTree(node->right);
+            // Libera la memoria del nodo actual
+            delete node;
+        }
+    }
     
     void Insert(rbtnode<T>* z) {
         // Inserta el nodo z en la posición que le corresponde en el árbol.
