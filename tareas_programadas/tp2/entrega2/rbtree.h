@@ -362,8 +362,17 @@ public:
         return x;
     };
     
+    /// @brief Busca el nodo mayor del subarbol
+    /// @param x el subarbol por navegar
+    /// @return Devuelve el nodo que tiene la llave mayor.
+    /// Si el árbol esta vacío devuelve el nodo nil.
     rbtnode<T>* Maximum(rbtnode<T> *x) {
-        // Devuelve el nodo que tiene la llave mayor. Si el árbol esta vacío devuelve el nodo nil.
+        // Mientras el hijo derecho no sea nulo,
+        // iterar por el subarbol derecho
+        while (x->GetRight() != nil) {
+            x = x->GetRight();
+        }
+        return x;
     };
     
     rbtnode<T>* Successor(rbtnode<T> *x) {
