@@ -330,12 +330,36 @@ public:
         }
     };
     
+    /// @brief Busca la llave k iterativamente en el subarbol con raíz x.
+    /// @param x subarbol por navegar
+    /// @param k llave por buscar
+    /// @return Si la encuentra devuelve un apuntador al nodo que la contiene
+    /// sino devuelve el nodo nil.
     rbtnode<T>* IterativeSearch(rbtnode<T> *x, const T& k) {
-        // Busca la llave k iterativamente en el subarbol con raíz x. Si la encuentra devuelve un apuntador al nodo que la contiene, sino devuelve el nodo nil.
+        // Mientras x no sea nil y no contenga k
+        while (x != nil && k != x->GetKey()) {
+            if (k <  x->GetKey()) {
+                // Si la llave es menor que la llave de x, iterar por el subárbol izquierdo
+                x = x->GetLeft();
+            } else {
+                // SI la llave es mayor que la llave de x, iterar por el subarbol derecho
+                x = x->GetRight();
+            }
+        }
+        return x;
     };
     
+    /// @brief Busca el nodo menor del subarbol
+    /// @param x el subarbol por navegar
+    /// @return Devuelve el nodo que tiene la llave menor.
+    /// Si el árbol esta vacío, devuelve el nodo nil.
     rbtnode<T>* Minimum(rbtnode<T> *x) {
-        // Devuelve el nodo que tiene la llave menor. Si el árbol esta vacío, devuelve el nodo nil.
+        // Mientras el hijo izquierdo no sea nulo,
+        // iterar por el subarbol izquierdo
+        while (x->GetLeft() != nil) {
+            x = x->GetLeft();
+        }
+        return x;
     };
     
     rbtnode<T>* Maximum(rbtnode<T> *x) {
