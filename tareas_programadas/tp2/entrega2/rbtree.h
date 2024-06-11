@@ -294,12 +294,40 @@ public:
     };
 
 
+    /// @brief Recorre en orden el subarbol con raíz x, imprimiendo la llave
+    /// de cada nodo en en una nueva linea de la salida estandar despues de
+    /// recorrido el subarbol izquierdo y antes de recorrer el subarbol derecho.
+    /// @param x El subárbol por recorrer
     void InorderWalk(rbtnode<T> *x) {
-        // Recorre en orden el subarbol con raíz x, imprimiendo la llave de cada nodo en en una nueva linea de la salida estandar despues de recorrido el subarbol izquierdo y antes de recorrer el subarbol derecho.
+        // Si el nodo no es nulo...
+        if (x != nil){
+            // Iterar por el subarbol izquierdo
+            InorderWalk(x->GetLeft());
+            // Imprimir el nodo actual
+            std::cout << x->GetKey() << std::endl;
+            // Iterar por el subarbol derecho
+            InorderWalk(x->GetRight());
+        }
     };
-    
+
+    /// @brief Busca la llave k iterativamente en el subarbol con raíz x.
+    /// @param x El subarbol por recorrer
+    /// @param k La llave por buscar
+    /// @return Si la encuentra devuelve un apuntador al nodo que la contiene,
+    /// sino devuelve el nodo nil.
     rbtnode<T>* Search(rbtnode<T> *x, const T& k) {
-        // Busca la llave k iterativamente en el subarbol con raíz x. Si la encuentra devuelve un apuntador al nodo que la contiene, sino devuelve el nodo nil.
+        // Revisa si el nodo en nulo/nil y si la llave se encuentra en x
+        if (x == nil || k == x->key) {
+            return x;
+        }
+        // Si la clave es menor que el nodo actual,
+        // buscar en el subárbol izquierdo
+        if (k < x->key) {
+            return Search(x->left, k);
+        // Si no, busca en el subárbol derecho
+        } else {
+            return Search(x->right, k);
+        }
     };
     
     rbtnode<T>* IterativeSearch(rbtnode<T> *x, const T& k) {
