@@ -375,8 +375,26 @@ public:
         return x;
     };
     
+    /// @brief Busca el successor del nodo x
+    /// @param x el nodo al cual se le busca el successor
+    /// @return Devuelve el nodo cuya llave es la que le sigue a la del nodo x.
+    /// Si no existe el nodo, devuelve el nodo nil.
     rbtnode<T>* Successor(rbtnode<T> *x) {
-        // Devuelve el nodo cuya llave es la que le sigue a la del nodo x. Si no existe el nodo, devuelve el nodo nil.
+        // Si el hijo derecho de x no es nil, retornal el minimo del hijo derecho
+        if (x->GetRight() != nil) {
+            return Minimum(x->GetRight());
+        } else {
+            // Si no hay hijo derecho, subimos en el árbol para encontrar el sucesor
+            rbtnode<T>* y = x->GetPadre();
+            // Mientras y no sea nil y x sea el hijo derecho de y
+            while (y != nil && x == y->GetRight()) {
+                // Subimos un nivel en el árbol
+                x = y;
+                y = y->GetPadre();
+            }
+            return y;
+        }
+        
     };
 };
 
