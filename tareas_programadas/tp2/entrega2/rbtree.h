@@ -123,11 +123,11 @@ public:
     /// @brief Destructor del árbol recursivo
     /// @param n nodo actual
     void destroyTree(rbtnode<T>* n){
-        if (node != nil) {
+        if (n != nil) {
             // Llama recursivamente los nodos izquierdos 
-            destroyTree(node->left);
+            destroyTree(n->GetLeft());
             // Llama recursivamente los nodos derechos
-            destroyTree(node->right);
+            destroyTree(n->GetRight());
             // Libera la memoria del nodo actual
             delete n;
         }
@@ -144,10 +144,10 @@ public:
             // Comparar la clave de x con el nuevo nodo
             // Si es menor, iterar al hijo izquierdo
             // Si es mayor, iterar al hijo derecho
-            if (z->GetKey() < x->key){
+            if (z->GetKey() < x->GetKey()){
                 x = x->GetLeft();
             } else {
-                x = x->right();
+                x = x->GetRight();
             }
         }
 
@@ -258,7 +258,7 @@ public:
         // Volver z en el hijo izquierdo de y
         y->SetLeft(z);
         // Volver y en el padre de z
-        z->SetPadre(y)
+        z->SetPadre(y);
     };
 
     /// @brief Hace rotación del nodo a la derecha
@@ -317,16 +317,16 @@ public:
     /// sino devuelve el nodo nil.
     rbtnode<T>* Search(rbtnode<T> *x, const T& k) {
         // Revisa si el nodo en nulo/nil y si la llave se encuentra en x
-        if (x == nil || k == x->key) {
+        if (x == nil || k == x->GetKey()) {
             return x;
         }
         // Si la clave es menor que el nodo actual,
         // buscar en el subárbol izquierdo
-        if (k < x->key) {
-            return Search(x->left, k);
+        if (k < x->GetKey()) {
+            return Search(x->GetLeft(), k);
         // Si no, busca en el subárbol derecho
         } else {
-            return Search(x->right, k);
+            return Search(x->GetRight(), k);
         }
     };
     
