@@ -57,7 +57,7 @@ public:
 
     /// @brief Método para obtener la clave del nodo
     /// @return la clave del nodo
-    int GetKey(){
+    T GetKey(){
         return key;
     }
 
