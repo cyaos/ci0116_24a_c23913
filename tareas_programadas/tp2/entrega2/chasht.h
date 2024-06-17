@@ -13,21 +13,26 @@ template <typename T>
 // Tabla de dispersión con encadenamiento
 class chtable {
 public:
-    // Constructor que especifica el tamaño de la tabla
+    /// @brief Constructor que especifica el tamaño de la tabla.
+    /// @param sz tamaño especificado.
     chtable(int sz) : size(sz) , table(sz) {
     };
-        
-    // Destructor (borra la tabla)
-    ~chtable() {
-    };
-    
-    // Inserta el elemento en la tabla
+
+    /// @brief Destructor. Borra la tabla.
+    ~chtable() {};
+
+    /// @brief Inserta el elemento en la tabla.
+    /// @param k elemento por insertar.
     void Insert(const T& k) {
         int q = hash(k);
         table[q].Insert(new llnode<T>(k));
     };
     
     // Retorna un puntero a la llave o nullptr si no se encuentra
+
+    /// @brief Busca la llave en la tabla.
+    /// @param k la llave por buscar.
+    /// @return Puntero a la llave, nulo si no la encuentra.
     T* Search(const T& k) {
         int q = hash(k);
         T* result = new int(table[q].Search(k)->GetKey());
@@ -39,12 +44,14 @@ private:
     /// Número de entradas en la tabla
     int size;
 
-    // Función de dispersión
+    /// @brief Función de dispersión
+    /// @param key La llave por ser insertada
+    /// @return El resultado tras hacer el hash
     int hash(const T& key) const {
         return (key) % size;
     }
 
-    /// La tabla es un vector de listas de STL
+    /// La tabla es un vector de listas doblemente enlazadas
     std::vector< llist<T> > table;
 };
 
