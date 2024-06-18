@@ -39,6 +39,9 @@ public:
         return result;
     };
     
+    std::string ImprimirDatosDeTarea(){
+        return "C23913 Tarea 2 Etapa 2";
+    };
     
 private:
     /// Número de entradas en la tabla

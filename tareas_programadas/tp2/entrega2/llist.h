@@ -137,7 +137,7 @@ public:
     };
 
     std::string ImprimirDatosDeTarea(){
-        return "C23913 Tarea 2 Etapa 1";
+        return "C23913 Tarea 2 Etapa 2";
     };
 
 };
